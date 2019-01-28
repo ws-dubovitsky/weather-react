@@ -1,25 +1,46 @@
-import React, { Component } from "react";
+import React from "react";
 import SearchBar from "./SearchBar";
-import AddressDetail from "./AddressDetail";
-
-class App extends Component {
+// import axios from "axios";
+import WeatherList from "./WeatherList";
+import { WeatherAPIRequest } from '../utils/axios'
+ 
+export default class App extends React.Component {
   state = {
-    place: {}
+    place: {},
+    weather: [],
   };
 
-  showPlaceDetails(place) {
-    console.log(place);
-    this.setState({ place });
-  }
+  showPlaceDetails = async place => {
+        const response = await WeatherAPIRequest.get('/data/2.5/forecast',{
+            params: {
+                lat: place.geometry.location.lat(),
+                lon: place.geometry.location.lng(),
+                appid: "a1940f6091cee8f1939beaa1ed9a82dc"
+            }
+        })
+        this.setState({
+            place: place,
+            weather: response.data
+        }, () => {
+            console.log('this.state', this.state)
+        });
+
+
+        // const response2 = await WeatherAPIRequest.get('/data/2.5/weather',{
+        //     params: {
+        //         q: place.name,
+        //         appid: "a1940f6091cee8f1939beaa1ed9a82dc"
+        //     }
+        // })
+        // console.log('response2', response2)
+  };
 
   render() {
     return (
       <div>
-        <SearchBar onPlaceChanged={this.showPlaceDetails.bind(this)} />
-        <AddressDetail place={this.state.place} />
+        <SearchBar onPlaceChanged={this.showPlaceDetails} />
+        <WeatherList data={this.state.weather} />
       </div>
     );
   }
 }
-
-export default App;

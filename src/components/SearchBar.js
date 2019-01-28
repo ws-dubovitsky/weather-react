@@ -1,7 +1,7 @@
 import React from "react";
 /* global google */
 
-export default class SearchBar extends React.Component {
+export default class SearchBar extends React.PureComponent {
   constructor(props) {
     super(props);
     this.autocompleteInput = React.createRef();
@@ -17,19 +17,21 @@ export default class SearchBar extends React.Component {
     this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
   }
 
-  handlePlaceChanged =()=> {
+  handlePlaceChanged = () => {
     const place = this.autocomplete.getPlace();
     this.props.onPlaceChanged(place);
-  }
+  };
 
   render() {
     return (
-      <input
-        ref={this.autocompleteInput}
-        id="autocomplete"
-        placeholder="Enter your address"
-        type="text"
-      />
+      <form>
+        <input
+          ref={this.autocompleteInput}
+          id="autocomplete"
+          placeholder="Enter your address"
+          type="text"
+        />
+      </form>
     );
   }
 }
