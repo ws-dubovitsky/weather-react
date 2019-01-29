@@ -30,7 +30,6 @@ export default class App extends React.Component {
         if (get(a, sortBy) > get(b, sortBy)) {
           return sortOrder === "asc" ? -1 : 1;
         }
-        // a должно быть равным b
         return 0;
       }),
       sortBy: arg,
@@ -46,23 +45,10 @@ export default class App extends React.Component {
         appid: "a1940f6091cee8f1939beaa1ed9a82dc"
       }
     });
-    this.setState(
-      {
-        place: place,
-        weather: response.data.list
-      },
-      () => {
-        // console.log("this.state", this.state);
-      }
-    );
-
-    // const response2 = await WeatherAPIRequest.get('/data/2.5/weather',{
-    //     params: {
-    //         q: place.name,
-    //         appid: "a1940f6091cee8f1939beaa1ed9a82dc"
-    //     }
-    // })
-    // console.log('response2', response2)
+    this.setState({
+      place: place,
+      weather: response.data.list
+    });
   };
 
   render() {
