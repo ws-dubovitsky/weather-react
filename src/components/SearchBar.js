@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, InputGroup } from "reactstrap";
 /* global google */
 
 export default class SearchBar extends React.PureComponent {
@@ -24,14 +25,17 @@ export default class SearchBar extends React.PureComponent {
 
   render() {
     return (
-      <form>
-        <input
-          ref={this.autocompleteInput}
-          id="autocomplete"
-          placeholder="Enter your address"
-          type="text"
-        />
-      </form>
+      <Form>
+        <InputGroup>
+          <input
+            className="form-control"
+            ref={this.autocompleteInput}
+            id="autocomplete"
+            placeholder="Enter your address"
+            type="text"
+          />
+        </InputGroup>
+      </Form>
     );
   }
 }

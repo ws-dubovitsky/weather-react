@@ -1,16 +1,29 @@
 import React from "react";
-// import WeatherRow from 'WeatherRow'
+import WeatherRow from "./WeatherRow";
+import { Table } from "reactstrap";
 
 export default class WeatherList extends React.PureComponent {
   render() {
     return (
-      <div>
-        {this.props.data.list &&
-          this.props.data.list.map(obj => (
-            <div>{obj.main.temp}</div>
-            //   <WeatherRow row={obj}>
-          ))}
-      </div>
+      <>
+        {this.props.data.length > 0 ? (
+          <Table bordered>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Temperature</th>
+                <th>Weather condition</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.props.data &&
+                this.props.data.map(obj => (
+                  <WeatherRow key={obj.dt} row={obj} />
+                ))}
+            </tbody>
+          </Table>
+        ) : null}
+      </>
     );
   }
 }
