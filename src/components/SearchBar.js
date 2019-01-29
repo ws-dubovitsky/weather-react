@@ -31,7 +31,7 @@ export default class SearchBar extends React.PureComponent {
             className="form-control"
             ref={this.autocompleteInput}
             id="autocomplete"
-            placeholder="Enter your address"
+            placeholder="Enter a location"
             type="text"
           />
         </InputGroup>

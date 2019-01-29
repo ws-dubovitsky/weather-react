@@ -1,14 +1,41 @@
 import React from "react";
-import SearchBar from "./SearchBar";
-// import axios from "axios";
-import WeatherList from "./WeatherList";
 import { WeatherAPIRequest } from "../utils/axios";
 import { Container, Row, Col } from "reactstrap";
+import SearchBar from "./SearchBar";
+import WeatherList from "./WeatherList";
+import { get } from "lodash";
 
 export default class App extends React.Component {
   state = {
     place: {},
-    weather: []
+    weather: [],
+    sortBy: "dt",
+    sortOrder: "asc"
+  };
+
+  onSorted = arg => {
+    const cloneWeather = JSON.parse(JSON.stringify(this.state.weather));
+    const { sortBy, sortOrder } = this.state;
+    console.log(
+      "sortBy, sortOrder11111",
+      this.state.sortBy,
+      this.state.sortOrder
+    );
+
+    this.setState({
+      weather: cloneWeather.sort(function(a, b) {
+        if (get(a, sortBy) < get(b, sortBy)) {
+          return sortOrder === "asc" ? 1 : -1;
+        }
+        if (get(a, sortBy) > get(b, sortBy)) {
+          return sortOrder === "asc" ? -1 : 1;
+        }
+        // a должно быть равным b
+        return 0;
+      }),
+      sortBy: arg,
+      sortOrder: sortBy === arg && sortOrder === "asc" ? "desc" : "asc"
+    });
   };
 
   showPlaceDetails = async place => {
@@ -25,7 +52,7 @@ export default class App extends React.Component {
         weather: response.data.list
       },
       () => {
-        console.log("this.state", this.state);
+        // console.log("this.state", this.state);
       }
     );
 
@@ -48,7 +75,12 @@ export default class App extends React.Component {
         </Row>
         <Row>
           <Col>
-            <WeatherList data={this.state.weather} />
+            <WeatherList
+              sortOrder={this.state.sortOrder}
+              sortBy={this.state.sortBy}
+              onSorted={this.onSorted}
+              data={this.state.weather}
+            />
           </Col>
         </Row>
       </Container>

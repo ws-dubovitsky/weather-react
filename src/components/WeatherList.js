@@ -1,25 +1,46 @@
+import { Table } from "reactstrap";
 import React from "react";
 import WeatherRow from "./WeatherRow";
-import { Table } from "reactstrap";
+import WeatherHeader from "./WeatherHeader";
+import "./WeatherList.css";
 
 export default class WeatherList extends React.PureComponent {
   render() {
+    const { sortBy, sortOrder, data, onSorted } = this.props;
     return (
       <>
-        {this.props.data.length > 0 ? (
+        {data.length > 0 ? (
           <Table bordered>
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Temperature</th>
-                <th>Weather condition</th>
+                <WeatherHeader
+                  param="dt"
+                  sortBy={sortBy}
+                  sortOrder={sortOrder}
+                  onSorted={onSorted}
+                >
+                  Date
+                </WeatherHeader>
+                <WeatherHeader
+                  param="main.temp"
+                  onSorted={onSorted}
+                  sortBy={sortBy}
+                  sortOrder={sortOrder}
+                >
+                  Temperature
+                </WeatherHeader>
+                <WeatherHeader
+                  param="weather[0].description"
+                  onSorted={onSorted}
+                  sortBy={sortBy}
+                  sortOrder={sortOrder}
+                >
+                  Weather condition
+                </WeatherHeader>
               </tr>
             </thead>
             <tbody>
-              {this.props.data &&
-                this.props.data.map(obj => (
-                  <WeatherRow key={obj.dt} row={obj} />
-                ))}
+              {data && data.map(obj => <WeatherRow key={obj.dt} row={obj} />)}
             </tbody>
           </Table>
         ) : null}
