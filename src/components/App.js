@@ -16,12 +16,6 @@ export default class App extends React.Component {
   onSorted = arg => {
     const cloneWeather = JSON.parse(JSON.stringify(this.state.weather));
     const { sortBy, sortOrder } = this.state;
-    console.log(
-      "sortBy, sortOrder11111",
-      this.state.sortBy,
-      this.state.sortOrder
-    );
-
     this.setState({
       weather: cloneWeather.sort(function(a, b) {
         if (get(a, sortBy) < get(b, sortBy)) {
